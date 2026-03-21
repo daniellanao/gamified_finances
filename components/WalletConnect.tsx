@@ -36,6 +36,11 @@ export function useWallet() {
   return ctx;
 }
 
+export function shortenAddress(address: string) {
+  if (!address) return "";
+  return `${address.slice(0, 6)}...${address.slice(-4)}`;
+}
+
 function RegistrationModal() {
   const { isConnected } = useAccount();
   const { isRegistered, registerOnChain, isTxPending, ready } = useJourneyProgress();
@@ -93,7 +98,7 @@ function RegistrationModal() {
   );
 }
 
-export function WalletConnectProvider({ children }: { children: ReactNode }) {
+function WalletConnectInternal({ children }: { children: ReactNode }) {
   const { address, isConnected } = useAccount();
   const { disconnect } = useDisconnect();
 
@@ -108,13 +113,19 @@ export function WalletConnectProvider({ children }: { children: ReactNode }) {
   );
 
   return (
+    <WalletConnectContext.Provider value={value}>
+      {children}
+      <RegistrationModal />
+    </WalletConnectContext.Provider>
+  );
+}
+
+export function WalletConnectProvider({ children }: { children: ReactNode }) {
+  return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider>
-          <WalletConnectContext.Provider value={value}>
-            {children}
-            <RegistrationModal />
-          </WalletConnectContext.Provider>
+          <WalletConnectInternal>{children}</WalletConnectInternal>
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
