@@ -1,0 +1,74 @@
+{
+    "level_id": "level_02",
+    "journey_level": 2,
+    "coins_per_correct": 12,
+    "title": "High-Interest Debt Management: Escaping the Debt Trap",
+    "slides": [
+      {
+        "slide_id": 1,
+        "type": "theory",
+        "title": "Debt Can Quietly Destroy Progress",
+        "content": "After gaining control over a budget, the next major obstacle is often debt. Not all debt is equally harmful, but high-interest debt is especially dangerous because it grows faster than most people expect. A credit card balance may look manageable in the short term, yet over time the interest absorbs cash flow that could have been used for savings, investing, or building stability. Managing debt is not only about making payments; it is about stopping financial leakage.",
+        "image": "debt_trap_intro.png"
+      },
+      {
+        "slide_id": 2,
+        "type": "question",
+        "title": "The Most Dangerous Type of Debt",
+        "question": "Why is high-interest debt usually considered one of the most harmful financial problems?",
+        "options": [
+          "Because it automatically lowers a person's salary",
+          "Because it tends to grow quickly and consumes future cash flow through interest",
+          "Because it prevents people from opening bank accounts",
+          "Because it always leads to legal consequences",
+          "Because it reduces the number of monthly expenses"
+        ],
+        "correct_answer": 1,
+        "explanation": "High-interest debt is dangerous because interest compounds quickly and reduces the money available for saving, investing, and essential goals."
+      },
+      {
+        "slide_id": 3,
+        "type": "theory",
+        "title": "Minimum Payments Create the Illusion of Control",
+        "content": "Imagine someone named Daniel who has organized his monthly budget and feels more in control. However, he still carries a credit card balance of $4,000 at a very high interest rate. Each month he pays only the minimum amount, believing he is handling the problem responsibly. In reality, minimum payments mainly protect the lender, not the borrower. They often keep the debt alive for years while a large portion of each payment goes to interest instead of reducing the principal.",
+        "image": "minimum_payment_illusion.png"
+      },
+      {
+        "slide_id": 4,
+        "type": "question",
+        "title": "The Illusion of Progress",
+        "question": "What is the main problem with relying only on minimum payments for high-interest debt?",
+        "options": [
+          "They usually eliminate the debt within a few months",
+          "They are only allowed for mortgages",
+          "A large part of the payment goes to interest, slowing down the reduction of the actual balance",
+          "They automatically improve investment returns",
+          "They reduce the credit limit permanently"
+        ],
+        "correct_answer": 2,
+        "explanation": "Minimum payments often make the debt last much longer because most of the payment goes to interest rather than meaningfully reducing the principal."
+      },
+      {
+        "slide_id": 5,
+        "type": "theory",
+        "title": "The Best Strategy Is to Attack Expensive Debt First",
+        "content": "Daniel now faces a decision. He has a small emergency buffer, stable income, and two debts: a low-interest personal loan and a high-interest credit card. The smartest strategy is usually to prioritize the most expensive debt first, because every extra dollar used to reduce high-interest debt produces an immediate financial return by avoiding future interest charges. This is one of the clearest examples of opportunity cost in personal finance: paying down expensive debt can be more valuable than many low-risk investments.",
+        "image": "debt_priority_strategy.png"
+      },
+      {
+        "slide_id": 6,
+        "type": "question",
+        "title": "Choosing the Right Debt Strategy",
+        "question": "Daniel has extra cash this month and wants to improve his financial position. Which option is usually the strongest decision?",
+        "options": [
+          "Pay only the minimum on all debts and invest the rest in a low-return savings product",
+          "Prioritize extra payments toward the high-interest credit card balance",
+          "Ignore the debt temporarily and focus only on discretionary spending reduction",
+          "Take on a second credit card to spread the balance across more accounts",
+          "Use all extra cash on the lowest-interest loan first because it feels safer"
+        ],
+        "correct_answer": 1,
+        "explanation": "In most cases, attacking high-interest debt first is the strongest financial move because it reduces future interest costs and improves cash flow faster."
+      }
+    ]
+  }
