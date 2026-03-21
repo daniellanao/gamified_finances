@@ -64,3 +64,4 @@ $ forge --help
 $ anvil --help
 $ cast --help
 ```
+### GamifiedFinances deployed to: 0x6C705a4a29061F6fcDD1D2D87339c983DeC11CAa on Avalanche Fuji Testnet
