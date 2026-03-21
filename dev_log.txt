@@ -1,0 +1,10 @@
+
+> gamified_finances@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.1 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://10.40.12.154:3000
+✓ Ready in 686ms
+
+ GET / 200 in 771ms (next.js: 241ms, application-code: 530ms)
