@@ -24,7 +24,7 @@ const pixel = Press_Start_2P({
 
 const publicNavLinks = [
   { label: "Home", href: "/" },
-  { label: "Ranking", href: "#ranking" },
+  { label: "Ranking", href: "/ranking" },
 ] as const;
 
 const journeyLink = { label: "Journey", href: "/journey" } as const;
