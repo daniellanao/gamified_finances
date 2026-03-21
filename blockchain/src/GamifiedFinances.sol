@@ -1,11 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
+import "@openzeppelin/contracts/access/Ownable.sol";
+
 /**
  * @title GamifiedFinances
  * @dev Manages player progression and coin rewards on Avalanche.
  */
-contract GamifiedFinances {
+contract GamifiedFinances is Ownable {
     struct Player {
         string nickname;
         uint256 level;
@@ -16,16 +18,30 @@ contract GamifiedFinances {
     // Mapping from wallet address to Player data
     mapping(address => Player) public players;
     
-    // List of all registered player addresses (to help with leaderboard fetching)
+    // Mapping from level number to IPFS CID
+    mapping(uint256 => string) public levelCIDs;
+
+    // List of all registered player addresses
     address[] public playerAddresses;
 
-    // Events for frontend tracking
+    // Events
     event PlayerRegistered(address indexed player, string nickname);
     event LevelCompleted(address indexed player, uint256 newLevel, uint256 coinsEarned);
+    event LevelCIDUpdated(uint256 indexed level, string cid);
+
+    constructor() Ownable(msg.sender) {}
+
+    /**
+     * @dev Sets the IPFS CID for a specific level.
+     * Only the owner can call this.
+     */
+    function setLevelCID(uint256 _level, string memory _cid) public onlyOwner {
+        levelCIDs[_level] = _cid;
+        emit LevelCIDUpdated(_level, _cid);
+    }
 
     /**
      * @dev Registers a new player with a nickname.
-     * Starts them at Level 1 with 0 coins.
      */
     function register(string memory _nickname) public {
         require(!players[msg.sender].exists, "Player already registered");
@@ -44,8 +60,6 @@ contract GamifiedFinances {
 
     /**
      * @dev Updates player level and awards coins.
-     * In a production app, you might want to sign these rewards with a backend key 
-     * to prevent users from cheating and calling this directly with max values.
      */
     function completeLevel(uint256 _nextLevel, uint256 _reward) public {
         require(players[msg.sender].exists, "Player not registered");
@@ -57,25 +71,16 @@ contract GamifiedFinances {
         emit LevelCompleted(msg.sender, _nextLevel, _reward);
     }
 
-    /**
-     * @dev Simple helper to get total number of players.
-     */
     function getPlayerCount() public view returns (uint256) {
         return playerAddresses.length;
     }
 
-    /**
-     * @dev Returns all player data for a simple leaderboard.
-     * Note: For many players, an off-chain indexer (like The Graph or Envio) is better.
-     */
     function getAllPlayers() public view returns (Player[] memory) {
         uint256 count = playerAddresses.length;
         Player[] memory allPlayers = new Player[](count);
-        
         for (uint256 i = 0; i < count; i++) {
             allPlayers[i] = players[playerAddresses[i]];
         }
-        
         return allPlayers;
     }
 }

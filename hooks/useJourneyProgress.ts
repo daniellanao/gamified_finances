@@ -1,86 +1,79 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useAccount, useReadContract, useWriteContract, useWatchContractEvents } from "wagmi";
+import { useEffect, useState } from "react";
+import { CONTRACT_ADDRESS } from "@/lib/wagmi-config";
+import abi from "@/lib/abi.json";
 
 export const JOURNEY_MAX_LEVEL = 5;
 
-const KEY_LEVEL = "gf_journey_level";
-const KEY_COINS = "gf_coins";
-
-/** Same-tab sync (storage event only fires across tabs) */
-export const JOURNEY_PROGRESS_SYNC = "gf-journey-progress-sync";
-
-function clampLevel(n: number) {
-  if (!Number.isFinite(n)) return 1;
-  return Math.min(JOURNEY_MAX_LEVEL, Math.max(1, Math.floor(n)));
-}
-
-function clampCoins(n: number) {
-  if (!Number.isFinite(n)) return 0;
-  return Math.max(0, Math.floor(n));
-}
-
 export function useJourneyProgress() {
+  const { address, isConnected } = useAccount();
   const [level, setLevelState] = useState(1);
   const [coins, setCoinsState] = useState(0);
-  const [ready, setReady] = useState(false);
 
-  const syncFromStorage = useCallback(() => {
-    const rawL = localStorage.getItem(KEY_LEVEL);
-    const rawC = localStorage.getItem(KEY_COINS);
-    const l = rawL != null ? parseInt(rawL, 10) : 1;
-    const c = rawC != null ? parseInt(rawC, 10) : 0;
-    setLevelState(clampLevel(l));
-    setCoinsState(clampCoins(c));
-  }, []);
+  // 1. Read player data from the blockchain
+  const { data: playerData, refetch, isLoading } = useReadContract({
+    address: CONTRACT_ADDRESS as `0x${string}`,
+    abi: abi,
+    functionName: "players",
+    args: address ? [address] : undefined,
+    query: {
+      enabled: !!address && isConnected,
+    }
+  });
 
+  // 2. Setup level completion transaction
+  const { writeContract, isPending: isTxPending } = useWriteContract();
+
+  // Update local state when blockchain data changes
   useEffect(() => {
-    syncFromStorage();
-    setReady(true);
-  }, [syncFromStorage]);
+    if (playerData) {
+      const [nickname, pLevel, pCoins, exists] = playerData as [string, bigint, bigint, boolean];
+      if (exists) {
+        setLevelState(Number(pLevel));
+        setCoinsState(Number(pCoins));
+      } else {
+        // Player exists but isn't registered yet?
+        // We'll handle registration in a real app, 
+        // but for now let's assume level 1.
+        setLevelState(1);
+        setCoinsState(0);
+      }
+    }
+  }, [playerData]);
 
-  useEffect(() => {
-    const onSync = () => syncFromStorage();
-    const onStorage = (e: StorageEvent) => {
-      if (e.key === KEY_LEVEL || e.key === KEY_COINS) syncFromStorage();
-    };
-    window.addEventListener(JOURNEY_PROGRESS_SYNC, onSync);
-    window.addEventListener("storage", onStorage);
-    return () => {
-      window.removeEventListener(JOURNEY_PROGRESS_SYNC, onSync);
-      window.removeEventListener("storage", onStorage);
-    };
-  }, [syncFromStorage]);
+  // Watch for events to refetch data automatically
+  useWatchContractEvents({
+    address: CONTRACT_ADDRESS as `0x${string}`,
+    abi: abi,
+    onLogs() {
+      refetch();
+    },
+  });
 
-  const setLevel = useCallback((next: number) => {
-    const v = clampLevel(next);
-    setLevelState(v);
-    localStorage.setItem(KEY_LEVEL, String(v));
-    window.dispatchEvent(new Event(JOURNEY_PROGRESS_SYNC));
-  }, []);
-
-  const setCoins = useCallback((next: number) => {
-    const v = clampCoins(next);
-    setCoinsState(v);
-    localStorage.setItem(KEY_COINS, String(v));
-    window.dispatchEvent(new Event(JOURNEY_PROGRESS_SYNC));
-  }, []);
-
-  const addCoins = useCallback((delta: number) => {
-    setCoinsState((prev) => {
-      const v = clampCoins(prev + delta);
-      localStorage.setItem(KEY_COINS, String(v));
-      window.dispatchEvent(new Event(JOURNEY_PROGRESS_SYNC));
-      return v;
+  const completeLevelOnChain = (nextLevel: number, reward: number) => {
+    if (!address) return;
+    writeContract({
+      address: CONTRACT_ADDRESS as `0x${string}`,
+      abi: abi,
+      functionName: "completeLevel",
+      args: [BigInt(nextLevel), BigInt(reward)],
     });
-  }, []);
+  };
+
+  // Mock functions for compatibility with existing components during transition
+  const setLevel = (next: number) => completeLevelOnChain(next, 50); // Default reward
+  const addCoins = (delta: number) => {}; // In blockchain, coins come from completeLevel
 
   return {
     level,
     coins,
-    ready,
+    ready: !isLoading,
+    isTxPending,
     setLevel,
-    setCoins,
     addCoins,
+    completeLevelOnChain,
+    refetch,
   };
 }

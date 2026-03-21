@@ -11,8 +11,8 @@ import {
   useJourneyProgress,
 } from "@/hooks/useJourneyProgress";
 import { useLevelSlideIndex } from "@/hooks/useLevelSlideIndex";
+import { useLevelData } from "@/hooks/useLevelData";
 import {
-  getLevelDataForJourneyLevel,
   slideIndexStorageKey,
 } from "@/lib/journey-level-data";
 import type { LevelSlide } from "@/types/level";
@@ -20,12 +20,18 @@ import type { LevelSlide } from "@/types/level";
 const NO_PACK_KEY = "__gf_journey_no_pack__";
 
 export function JourneyLevelSlide() {
-  const { level: journeyLevel, coins, ready, addCoins, setLevel } =
-    useJourneyProgress();
+  const { 
+    level: journeyLevel, 
+    coins, 
+    ready: progressReady, 
+    completeLevelOnChain,
+    isTxPending 
+  } = useJourneyProgress();
+
+  const { levelPack, loading: levelLoading, error: levelError } = useLevelData(journeyLevel);
 
   const canAdvanceJourney = journeyLevel < JOURNEY_MAX_LEVEL;
 
-  const levelPack = getLevelDataForJourneyLevel(journeyLevel);
   const totalSlides = levelPack?.slides.length ?? 0;
   const storageKey = levelPack
     ? slideIndexStorageKey(levelPack.level_id)
@@ -43,18 +49,28 @@ export function JourneyLevelSlide() {
   const coinsReward = levelPack?.coins_per_correct ?? 10;
 
   const onQuestionCorrect = useCallback(() => {
-    addCoins(coinsReward);
-  }, [addCoins, coinsReward]);
+    // addCoins(coinsReward); // No longer needed as we'll reward total coins on-chain at the end
+  }, []);
 
   const onCompleteJourneyLevel = useCallback(() => {
-    if (!canAdvanceJourney) return;
-    setLevel(journeyLevel + 1);
-  }, [canAdvanceJourney, journeyLevel, setLevel]);
+    if (!canAdvanceJourney || isTxPending) return;
+    // Calculate total coins earned in this level to send on-chain
+    // For now, let's just send the standard level reward
+    completeLevelOnChain(journeyLevel + 1, coinsReward * totalSlides);
+  }, [canAdvanceJourney, isTxPending, journeyLevel, completeLevelOnChain, coinsReward, totalSlides]);
 
-  if (!levelPack) {
+  if (levelLoading) {
     return (
       <p className="text-sm text-[var(--pf-slate)]" style={journeySans}>
-        No level content for journey stage {journeyLevel} yet.
+        Fetching level {journeyLevel} from Avalanche & IPFS...
+      </p>
+    );
+  }
+
+  if (levelError || !levelPack) {
+    return (
+      <p className="text-sm text-red-500" style={journeySans}>
+        {levelError || `No level content for journey stage ${journeyLevel} yet.`}
       </p>
     );
   }
@@ -70,7 +86,7 @@ export function JourneyLevelSlide() {
   if (!indexReady) {
     return (
       <p className="text-sm text-[var(--pf-slate)]" style={journeySans}>
-        Loading…
+        Loading slides…
       </p>
     );
   }
@@ -83,12 +99,18 @@ export function JourneyLevelSlide() {
         packJourneyLevel={levelPack.journey_level}
         savedJourneyLevel={journeyLevel}
         coins={coins}
-        progressReady={ready}
+        progressReady={progressReady}
         slideIndex={slideIndex}
         totalSlides={totalSlides}
         title={levelPack.title}
         description={levelPack.description}
       />
+
+      {isTxPending && (
+        <div className="rounded-sm border-2 border-blue-400 bg-blue-50 p-4 text-sm text-blue-700">
+          Syncing progress with Avalanche... Please wait.
+        </div>
+      )}
 
       {slide.type === "theory" ? (
         <JourneyTheorySlide
@@ -116,3 +138,4 @@ export function JourneyLevelSlide() {
     </article>
   );
 }
+
