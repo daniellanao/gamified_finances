@@ -62,7 +62,7 @@ export function JourneyLevelSlide() {
   if (levelLoading) {
     return (
       <p className="text-sm text-[var(--pf-slate)]" style={journeySans}>
-        Fetching level {journeyLevel} from Avalanche & IPFS...
+        Fetching level {journeyLevel}...
       </p>
     );
   }
@@ -108,7 +108,7 @@ export function JourneyLevelSlide() {
 
       {isTxPending && (
         <div className="rounded-sm border-2 border-blue-400 bg-blue-50 p-4 text-sm text-blue-700">
-          Syncing progress with Avalanche... Please wait.
+          Syncing progress... Please wait.
         </div>
       )}
 

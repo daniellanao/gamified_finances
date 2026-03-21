@@ -1,4 +1,4 @@
-import { createPublicClient, http, readContract } from "viem";
+import { createPublicClient, http } from "viem";
 import { avalancheFuji } from "viem/chains";
 import { CONTRACT_ADDRESS } from "./wagmi-config";
 import abi from "./abi.json";
@@ -18,7 +18,7 @@ export async function getLevelDataForJourneyLevel(
 ): Promise<LevelData | null> {
   try {
     // 1. Fetch the CID from the Avalanche Fuji contract
-    const cid = (await readContract(publicClient, {
+    const cid = (await publicClient.readContract({
       address: CONTRACT_ADDRESS as `0x${string}`,
       abi: abi,
       functionName: "levelCIDs",
