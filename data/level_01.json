@@ -1,0 +1,73 @@
+{
+    "level_id": "level_01",
+    "title": "Financial Control: The Foundation of Personal Finance",
+    "description": "Understanding why budgeting is not about restriction, but about control over your financial life.",
+    "slides": [
+      {
+        "slide_id": 1,
+        "type": "theory",
+        "title": "Money Without Control Disappears",
+        "content": "Many people believe that financial problems come from earning too little. In reality, the most common problem is lack of financial control. Budgeting is simply the act of deciding intentionally where your money goes, instead of wondering where it went. A person who earns $3,000 and manages it intentionally will build wealth faster than someone who earns $10,000 but spends without awareness.",
+        "image": "budget_control.png"
+      },
+      {
+        "slide_id": 2,
+        "type": "question",
+        "title": "What Is the Real Purpose of Budgeting?",
+        "question": "Which statement best describes the real purpose of a personal budget?",
+        "options": [
+          "To restrict spending as much as possible",
+          "To track expenses after the money has already been spent",
+          "To intentionally plan how money will be allocated before spending occurs",
+          "To eliminate all discretionary spending",
+          "To ensure that income is always higher than expenses"
+        ],
+        "correct_answer": 2,
+        "explanation": "A budget is not about restriction; it is about intentional allocation. The goal is to decide where money goes before it is spent."
+      },
+      {
+        "slide_id": 3,
+        "type": "theory",
+        "title": "Income Alone Does Not Create Wealth",
+        "content": "Higher income does not automatically lead to financial stability. Many high earners live paycheck to paycheck because their spending grows with their income. This phenomenon is known as lifestyle inflation. Budgeting prevents lifestyle inflation by ensuring that increases in income translate into increases in savings and investments, not just consumption.",
+        "image": "lifestyle_inflation.png"
+      },
+      {
+        "slide_id": 4,
+        "type": "question",
+        "title": "Understanding Lifestyle Inflation",
+        "question": "What is the main risk of lifestyle inflation?",
+        "options": [
+          "People start paying more taxes when income increases",
+          "Expenses grow proportionally with income, preventing wealth accumulation",
+          "Individuals stop working once their income increases",
+          "Investment opportunities become limited",
+          "People become less productive at work"
+        ],
+        "correct_answer": 1,
+        "explanation": "Lifestyle inflation occurs when spending rises alongside income, preventing the increase in savings or investments."
+      },
+      {
+        "slide_id": 5,
+        "type": "theory",
+        "title": "The Budget as a Strategic Tool",
+        "content": "A budget is not merely a record of expenses. It is a strategic tool that allows individuals to allocate resources toward long-term goals. When used properly, budgeting enables three critical outcomes: controlling spending, increasing savings rates, and directing money toward investments that build future financial security.",
+        "image": "budget_strategy.png"
+      },
+      {
+        "slide_id": 6,
+        "type": "question",
+        "title": "Strategic Use of a Budget",
+        "question": "Which of the following best reflects the strategic use of a budget?",
+        "options": [
+          "Recording past spending for tax purposes",
+          "Avoiding all unnecessary purchases",
+          "Allocating money toward spending, saving, and investing according to priorities",
+          "Reducing income volatility",
+          "Tracking bank balances more frequently"
+        ],
+        "correct_answer": 2,
+        "explanation": "A strategic budget allocates money intentionally across spending, saving, and investing in line with financial priorities."
+      }
+    ]
+  }

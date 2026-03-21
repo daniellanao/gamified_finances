@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Press_Start_2P } from "next/font/google";
+
+import { Navbar } from "@/components/Navbar";
+import { WalletConnectProvider } from "@/components/WalletConnect";
+
 import "./globals.css";
 
 const geistSans = Geist({
@@ -9,6 +13,11 @@ const geistSans = Geist({
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+const pixel = Press_Start_2P({
+  weight: "400",
   subsets: ["latin"],
 });
 
@@ -27,7 +36,16 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <div
+          className={`${pixel.className} flex min-h-screen flex-col bg-[var(--pf-bg)] text-[var(--pf-text)]`}
+        >
+          <WalletConnectProvider>
+            <Navbar />
+            {children}
+          </WalletConnectProvider>
+        </div>
+      </body>
     </html>
   );
 }
