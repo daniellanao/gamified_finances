@@ -8,8 +8,21 @@ import type { Metadata } from "next";
 const sans = { fontFamily: "var(--font-geist-sans), system-ui, sans-serif" } as const;
 
 export const metadata: Metadata = {
-  title: "Leaderboard · Gamified Finances",
-  description: "Wallet rankings by coins and journey level",
+  title: "Leaderboard",
+  description:
+    "See how wallets stack up by coins earned and journey level in this demo leaderboard.",
+  openGraph: {
+    title: "Leaderboard · Gamified Finances",
+    description:
+      "Wallet rankings by coins earned in the journey and current level.",
+    url: "/ranking",
+  },
+  twitter: {
+    title: "Leaderboard · Gamified Finances",
+    description:
+      "Wallet rankings by coins earned in the journey and current level.",
+  },
+  alternates: { canonical: "/ranking" },
 };
 
 export default function RankingPage() {

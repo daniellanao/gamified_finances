@@ -1,5 +1,26 @@
+import type { Metadata } from "next";
+
 import { JourneyLevelSlide } from "@/components/journey/JourneyLevelSlide";
 import { JourneySidebar } from "@/components/journey/JourneySidebar";
+import { SITE_NAME } from "@/lib/site";
+
+export const metadata: Metadata = {
+  title: "Journey",
+  description:
+    "Play through financial lessons level by level: theory, practice questions, and coins as you advance your money skills.",
+  openGraph: {
+    title: `Journey · ${SITE_NAME}`,
+    description:
+      "Levels, quizzes, and rewards as you learn budgeting, saving, and more.",
+    url: "/journey",
+  },
+  twitter: {
+    title: `Journey · ${SITE_NAME}`,
+    description:
+      "Levels, quizzes, and rewards as you learn budgeting, saving, and more.",
+  },
+  alternates: { canonical: "/journey" },
+};
 
 export default function JourneyPage() {
   return (
