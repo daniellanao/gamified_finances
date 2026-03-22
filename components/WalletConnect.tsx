@@ -20,7 +20,7 @@ const heroButtonClass =
 
 /** Demo-only default so the field is pre-filled; user can edit or submit as-is */
 const DEFAULT_FAKE_WALLET =
-  "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb";
+  "0x842d35Cc6634C0532925a3b844Bc9e7595f0bEb";
 
 export type WalletConnectContextValue = {
   open: () => void;
