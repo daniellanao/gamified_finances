@@ -115,7 +115,8 @@ function PitchSection({
   subtitle?: string;
   priority?: boolean;
   compact?: boolean;
-  children: ReactNode;
+  /** Optional — title/subtitle-only slides are valid for recording */
+  children?: ReactNode;
 }) {
   return (
     <section
